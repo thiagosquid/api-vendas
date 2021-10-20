@@ -1,5 +1,6 @@
 package com.smsolucoes.apivendas.entities;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Client {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +23,9 @@ public class Client {
     private String name;
 
     @Column(nullable = false)
-    private String cpfCnpj;
+    private double price;
 
-    @OneToMany
+    @ManyToMany
     private List<Sale> saleList = new ArrayList<>();
 
 }

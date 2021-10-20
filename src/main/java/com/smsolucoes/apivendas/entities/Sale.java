@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,19 +13,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Client {
+public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private LocalDate date;
 
-    @Column(nullable = false)
-    private String cpfCnpj;
-
-    @OneToMany
-    private List<Sale> saleList = new ArrayList<>();
+    @ManyToMany
+    private List<Product> productList = new ArrayList<>();
 
 }
