@@ -1,5 +1,6 @@
 package com.smsolucoes.apivendas.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,11 @@ public class Client {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cpfCnpj;
 
-    @OneToMany
-    private List<Sale> saleList = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<Sale> salesList = new ArrayList<>();
 
 }

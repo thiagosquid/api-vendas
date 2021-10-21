@@ -1,5 +1,6 @@
 package com.smsolucoes.apivendas.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,12 @@ public class Sale {
     @Column(nullable = false)
     private LocalDate date;
 
-    @ManyToMany
-    private List<Product> productList = new ArrayList<>();
+//    @ManyToMany
+//    private List<Product> productList = new ArrayList<>();
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
 }

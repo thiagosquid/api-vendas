@@ -1,17 +1,28 @@
 package com.smsolucoes.apivendas.controllers;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import com.smsolucoes.apivendas.entities.Sale;
+import com.smsolucoes.apivendas.services.SaleService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/sales")
 public class SalesController {
 
+    private final SaleService service;
+
+    public SalesController(SaleService salesService) {
+        this.service = salesService;
+    }
+
     @GetMapping
-    public String testApi(){
-        return "Testado";
+    public List<Sale> getAll(){
+        return service.findAllSales();
+    }
+
+    @PostMapping
+    public void createSale(Sale sale){
+        service.createSale(sale);
     }
 }
