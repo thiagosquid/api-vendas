@@ -2,6 +2,9 @@ package com.smsolucoes.apivendas.controllers;
 
 import com.smsolucoes.apivendas.entities.Sale;
 import com.smsolucoes.apivendas.services.SaleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,15 +13,13 @@ import java.util.List;
 @RequestMapping("/api/v1/sales")
 public class SalesController {
 
-    private final SaleService service;
-
-    public SalesController(SaleService salesService) {
-        this.service = salesService;
-    }
+    @Autowired
+    SaleService service;
 
     @GetMapping
-    public List<Sale> getAll(){
-        return service.findAllSales();
+    public ResponseEntity<List<Sale>> getAll(){
+        List<Sale> allSales = service.findAllSales();
+        return ResponseEntity.ok().body(allSales);
     }
 
     @PostMapping
