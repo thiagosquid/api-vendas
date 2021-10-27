@@ -2,6 +2,7 @@ package com.smsolucoes.apivendas.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Client {
 
     @Id
@@ -27,6 +29,6 @@ public class Client {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<Sale> salesList = new ArrayList<>();
+    private List<Sale> sales = new ArrayList<>();
 
 }
