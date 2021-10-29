@@ -1,7 +1,11 @@
 package com.smsolucoes.apivendas.dtos.request;
 
+
 import com.smsolucoes.apivendas.entities.Sale;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -11,12 +15,18 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class SaleDto {
 
-    public int id;
+    private Long id;
 
     @NotEmpty
-    public String date;
+    private String date;
+
+    private ClientDto client;
 
 //    public List<ProductDto> products = new ArrayList<>();
+
+    public SaleDto(Sale sale) {
+        this.id = sale.getId();
+    }
 
 
 }

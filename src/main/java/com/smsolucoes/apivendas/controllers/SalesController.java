@@ -1,9 +1,11 @@
 package com.smsolucoes.apivendas.controllers;
 
+import com.smsolucoes.apivendas.dtos.request.SaleDto;
 import com.smsolucoes.apivendas.entities.Sale;
 import com.smsolucoes.apivendas.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +19,20 @@ public class SalesController {
     SaleService service;
 
     @GetMapping
-    public ResponseEntity<List<Sale>> getAll(){
-        List<Sale> allSales = service.findAllSales();
-        return ResponseEntity.ok().body(allSales);
+    public List<Sale> getAllSales(){
+
+        return service.getAllSales();
     }
 
-    @PostMapping
-    public void createSale(Sale sale){
-        service.createSale(sale);
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public SaleDto getSaleById(@PathVariable Long id){
+        return service.getSaleById(id);
+    }
+
+    @PostMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public SaleDto createSale(@PathVariable long id, @RequestBody SaleDto saleDto){
+        return service.createSale(id, saleDto);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,8 @@ public class ClientService {
 
     public List<ClientDto> getAllClients(){
         List<Client> allClients = repository.findAll();
+//        Optional<Client> c1 = repository.findById(1L);
+//        System.out.println(c1);
         return allClients.stream().map((client)->{
             return clientMapper.toDTO(client);
         }).collect(Collectors.toList());

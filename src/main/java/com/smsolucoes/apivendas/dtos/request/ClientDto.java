@@ -1,5 +1,7 @@
 package com.smsolucoes.apivendas.dtos.request;
 
+import com.smsolucoes.apivendas.dtos.mapper.SaleMapper;
+import com.smsolucoes.apivendas.entities.Client;
 import com.smsolucoes.apivendas.entities.Sale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -31,6 +34,15 @@ public class ClientDto {
 
     @Valid
     @NotEmpty
-    private List<Sale> salesList = new ArrayList<>();
+    private List<SaleDto> salesList = new ArrayList<>();
+
+    public ClientDto(Client client){
+        this.id = client.getId();
+        this.name = client.getName();
+        this.cpfCnpj = client.getCpfCnpj();
+
+        this.salesList = client.getSales().stream().map(sale -> new SaleDto(sale)).collect(Collectors.toList());
+
+    }
 
 }

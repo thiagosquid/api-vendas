@@ -5,6 +5,7 @@ import com.smsolucoes.apivendas.dtos.response.MessageResponseDto;
 import com.smsolucoes.apivendas.entities.Client;
 import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
 import com.smsolucoes.apivendas.services.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +19,13 @@ import java.util.List;
 @RequestMapping("/api/v1/clients")
 public class ClientsController {
 
-    private final ClientService service;
+    @Autowired
+    ClientService service;
 
-    public ClientsController(ClientService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public List<ClientDto> getAll(){
+
         return service.getAllClients();
     }
 

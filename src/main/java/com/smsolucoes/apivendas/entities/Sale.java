@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,12 +22,13 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private LocalDate date;
 
     @JsonBackReference
     @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
 //    @ManyToMany(cascade = {CascadeType.DETACH,
