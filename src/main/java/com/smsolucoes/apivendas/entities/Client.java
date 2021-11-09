@@ -26,10 +26,7 @@ public class Client implements Serializable {
 
     @Column(nullable = false, unique = true)
     private String cpfCnpj;
-//    public Client(String name, String cpfCnpj) {
-//        this.name = name;
-//        this.cpfCnpj = cpfCnpj;
-//    }
+
     @JsonManagedReference
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Sale> sales = new ArrayList<>();

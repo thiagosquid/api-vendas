@@ -1,5 +1,7 @@
 package com.smsolucoes.apivendas.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,7 @@ public class Product {
     @Column(nullable = false)
     private double price;
 
+    @JsonIgnore
     @ManyToMany
     private List<Sale> saleList = new ArrayList<>();
 
