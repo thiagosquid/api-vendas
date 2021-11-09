@@ -1,6 +1,5 @@
 package com.smsolucoes.apivendas.controllers;
 
-import com.smsolucoes.apivendas.dtos.request.ClientDto;
 import com.smsolucoes.apivendas.dtos.response.MessageResponseDto;
 import com.smsolucoes.apivendas.entities.Client;
 import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
@@ -24,19 +23,19 @@ public class ClientsController {
 
 
     @GetMapping
-    public List<ClientDto> getAll(){
+    public List<Client> getAll(){
 
         return service.getAllClients();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.FOUND)
-    public ClientDto getById(@PathVariable Long id){
+    public Client getById(@PathVariable Long id){
         return service.getClientById(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> createClient(@RequestBody @Valid ClientDto client){
+    public ResponseEntity<?> createClient(@RequestBody @Valid Client client){
 
         Client clientSaved = service.createClient(client);
 
@@ -59,7 +58,7 @@ public class ClientsController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ClientDto updateClient(@PathVariable Long id, @RequestBody @Valid ClientDto clientDto) throws ClientNotFoundException {
+    public Client updateClient(@PathVariable Long id, @RequestBody @Valid Client clientDto) throws ClientNotFoundException {
 
         return service.updateClient(id, clientDto);
 

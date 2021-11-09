@@ -1,7 +1,5 @@
 package com.smsolucoes.apivendas.services;
 
-import com.smsolucoes.apivendas.dtos.mapper.ClientMapper;
-import com.smsolucoes.apivendas.dtos.request.ClientDto;
 import com.smsolucoes.apivendas.entities.Client;
 import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
 import com.smsolucoes.apivendas.repositories.ClientRepository;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,21 +16,12 @@ public class ClientService {
 
     private final ClientRepository repository;
 
-    private final ClientMapper clientMapper;
-
-    public List<ClientDto> getAllClients(){
+    public List<Client> getAllClients(){
         List<Client> allClients = repository.findAll();
-//        Optional<Client> c1 = repository.findById(1L);
-//        System.out.println(c1);
-        return allClients.stream().map((client)->{
-            return clientMapper.toDTO(client);
-        }).collect(Collectors.toList());
-
+        return allClients;
     }
 
-    public Client createClient(ClientDto clientDto) {
-
-        Client client = clientMapper.toModel(clientDto);
+    public Client createClient(Client client) {
 
         return repository.save(client);
 
@@ -53,21 +41,19 @@ public class ClientService {
 
     }
 
-    public ClientDto getClientById(Long id) {
+    public Client getClientById(Long id) {
         Client clientFound = repository.getById(id);
 
-        return clientMapper.toDTO(clientFound);
+        return clientFound;
     }
 
-    public ClientDto updateClient(Long id, ClientDto clientDto) throws ClientNotFoundException {
+    public Client updateClient(Long id, Client client) throws ClientNotFoundException {
 
         verifyIfExists(id);
 
-        clientDto.setId(id);
-        Client clientToUpdate = clientMapper.toModel(clientDto);
+        client.setId(id);
 
-        return clientMapper.toDTO(repository.save(clientToUpdate));
-
+        return repository.save(client);
 
     }
 }

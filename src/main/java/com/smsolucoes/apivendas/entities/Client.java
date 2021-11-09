@@ -1,22 +1,21 @@
 package com.smsolucoes.apivendas.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Client {
+@Getter
+@Setter
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +26,12 @@ public class Client {
 
     @Column(nullable = false, unique = true)
     private String cpfCnpj;
-
+//    public Client(String name, String cpfCnpj) {
+//        this.name = name;
+//        this.cpfCnpj = cpfCnpj;
+//    }
     @JsonManagedReference
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Sale> sales = new ArrayList<>();
-
+    
 }

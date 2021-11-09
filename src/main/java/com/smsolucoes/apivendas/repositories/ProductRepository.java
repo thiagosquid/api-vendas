@@ -1,11 +1,9 @@
 package com.smsolucoes.apivendas.repositories;
 
-import com.smsolucoes.apivendas.entities.Client;
+import com.smsolucoes.apivendas.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
-    
-    public Client getById(Long id);
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }
