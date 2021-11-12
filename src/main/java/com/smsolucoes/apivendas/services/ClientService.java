@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,9 +43,9 @@ public class ClientService {
     }
 
     public Client getClientById(Long id) {
-        Client clientFound = repository.getById(id);
+        Optional<Client> clientFound = repository.findById(id);
 
-        return clientFound;
+        return clientFound.get();
     }
 
     public Client updateClient(Long id, Client client) throws ClientNotFoundException {
