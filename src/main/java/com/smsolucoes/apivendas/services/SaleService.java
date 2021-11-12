@@ -2,6 +2,7 @@ package com.smsolucoes.apivendas.services;
 
 import com.smsolucoes.apivendas.entities.Product;
 import com.smsolucoes.apivendas.entities.Sale;
+import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
 import com.smsolucoes.apivendas.exceptions.SaleNotFoundException;
 import com.smsolucoes.apivendas.repositories.ClientRepository;
 import com.smsolucoes.apivendas.repositories.ProductRepository;
@@ -26,6 +27,9 @@ public class SaleService {
     ClientRepository clientRepository;
 
     @Autowired
+    ClientService clientService;
+
+    @Autowired
     ProductRepository productRepository;
 
     public SaleService() {
@@ -47,16 +51,16 @@ public class SaleService {
         saleRepository.deleteById(id);
     }
 
-    public Sale createSale(Long id, Sale saleToSave) {
+    public Sale createSale(Long id, Sale saleToSave) throws ClientNotFoundException {
 
-        saleToSave.setClient(clientRepository.getById(id));
+        saleToSave.setClient(clientService.verifyIfExists(id));
         Sale saleSaved = saleRepository.save(saleToSave);
 
         return saleSaved;
     }
 
-    public Sale updateSale(Long id, List<Long> productsIds){
-        Sale saleToUpdate = saleRepository.getById(id);
+    public Sale updateSale(Long id, List<Long> productsIds) throws SaleNotFoundException {
+        Sale saleToUpdate = verifyIfExists(id);
 
         List<Product> productList = productRepository.findAllById(productsIds);
 
@@ -72,8 +76,9 @@ public class SaleService {
 
     }
 
-    public String deliveryTimeToSale(Long id) {
-        Sale sale = saleRepository.getById(id);
+    public String deliveryTimeToSale(Long id) throws SaleNotFoundException {
+
+        Sale sale = verifyIfExists(id);
         LocalDate deadline = sale.getDate();
         deadline = deadline.plusDays(10L);
         String dateStr = deadline.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));

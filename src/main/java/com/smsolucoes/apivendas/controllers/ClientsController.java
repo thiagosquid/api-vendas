@@ -30,7 +30,7 @@ public class ClientsController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.FOUND)
-    public Client getById(@PathVariable Long id){
+    public Client getById(@PathVariable Long id) throws ClientNotFoundException {
         return service.getClientById(id);
     }
 

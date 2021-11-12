@@ -28,7 +28,6 @@ public class ClientService {
 
     }
 
-
     public void deleteClientById(Long id) throws ClientNotFoundException {
 
         verifyIfExists(id);
@@ -36,16 +35,9 @@ public class ClientService {
 
     }
 
-    private Client verifyIfExists(Long id) throws ClientNotFoundException {
-
-        return repository.findById(id).orElseThrow(()-> new ClientNotFoundException(id.intValue()));
-
-    }
-
-    public Client getClientById(Long id) {
-        Optional<Client> clientFound = repository.findById(id);
-
-        return clientFound.get();
+    public Client getClientById(Long id) throws ClientNotFoundException {
+        Client client = verifyIfExists(id);
+        return client;
     }
 
     public Client updateClient(Long id, Client client) throws ClientNotFoundException {
@@ -57,4 +49,11 @@ public class ClientService {
         return repository.save(client);
 
     }
+
+    public Client verifyIfExists(Long id) throws ClientNotFoundException {
+
+        return repository.findById(id).orElseThrow(()-> new ClientNotFoundException(id.intValue()));
+
+    }
+
 }

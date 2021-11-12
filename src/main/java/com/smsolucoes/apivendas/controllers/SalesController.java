@@ -1,6 +1,7 @@
 package com.smsolucoes.apivendas.controllers;
 
 import com.smsolucoes.apivendas.entities.Sale;
+import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
 import com.smsolucoes.apivendas.exceptions.SaleNotFoundException;
 import com.smsolucoes.apivendas.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class SalesController {
 
     @GetMapping("/prazo/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deliveryTime(@PathVariable Long id){
+    public String deliveryTime(@PathVariable Long id) throws SaleNotFoundException {
         return saleService.deliveryTimeToSale(id);
     }
 
@@ -43,13 +44,13 @@ public class SalesController {
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Sale createSale(@PathVariable Long id, @RequestBody Sale sale){
+    public Sale createSale(@PathVariable Long id, @RequestBody Sale sale) throws ClientNotFoundException {
         return saleService.createSale(id, sale);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Sale updateSale(@PathVariable Long id, @RequestBody List<Long> productsIds){
+    public Sale updateSale(@PathVariable Long id, @RequestBody List<Long> productsIds) throws SaleNotFoundException {
         return saleService.updateSale(id, productsIds);
     }
 }

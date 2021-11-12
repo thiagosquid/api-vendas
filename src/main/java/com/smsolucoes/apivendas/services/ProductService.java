@@ -20,8 +20,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.getById(id);
+    public Product getProductById(Long id) throws ProductNotFoundException {
+        return verifyIfExists(id);
     }
 
     public void deleteProductById(Long id) throws ProductNotFoundException {
@@ -38,9 +38,6 @@ public class ProductService {
 
         return productRepository.save(product);
     }
-
-
-
 
     private Product verifyIfExists(Long id) throws ProductNotFoundException {
 
