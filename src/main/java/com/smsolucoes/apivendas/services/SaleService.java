@@ -1,5 +1,7 @@
 package com.smsolucoes.apivendas.services;
 
+import com.smsolucoes.apivendas.dtos.mappers.SaleMapper;
+import com.smsolucoes.apivendas.dtos.requests.SaleDto;
 import com.smsolucoes.apivendas.entities.Product;
 import com.smsolucoes.apivendas.entities.Sale;
 import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SaleService {
@@ -32,17 +35,15 @@ public class SaleService {
     @Autowired
     ProductRepository productRepository;
 
-    public SaleService() {
+    private final SaleMapper saleMapper = SaleMapper.INSTANCE;
+
+    public List<SaleDto> getAllSales(){
+        return saleRepository.findAll().stream().map(sale -> saleMapper.toDto(sale))
+                .collect(Collectors.toList());
     }
 
-    public List<Sale> getAllSales(){
-        return saleRepository.findAll();
-
-    }
-
-    public Sale getSaleById(Long id) {
-
-        return saleRepository.getById(id);
+    public SaleDto getSaleById(Long id) {
+        return saleMapper.toDto(saleRepository.getById(id));
     }
 
     public void deleteById(Long id) throws SaleNotFoundException {
@@ -51,22 +52,22 @@ public class SaleService {
         saleRepository.deleteById(id);
     }
 
-    public Sale createSale(Long id, Sale saleToSave) throws ClientNotFoundException {
+    public SaleDto createSale(Long id, SaleDto saleToSave) throws ClientNotFoundException {
 
         saleToSave.setClient(clientService.verifyIfExists(id));
-        Sale saleSaved = saleRepository.save(saleToSave);
+        Sale saleSaved = saleRepository.save(saleMapper.toModel(saleToSave));
 
-        return saleSaved;
+        return saleMapper.toDto(saleSaved);
     }
 
-    public Sale updateSale(Long id, List<Long> productsIds) throws SaleNotFoundException {
+    public SaleDto updateSale(Long id, List<Long> productsIds) throws SaleNotFoundException {
         Sale saleToUpdate = verifyIfExists(id);
 
         List<Product> productList = productRepository.findAllById(productsIds);
 
         saleToUpdate.setProducts(productList);
 
-        return saleRepository.save(saleToUpdate);
+        return saleMapper.toDto(saleRepository.save(saleToUpdate));
 
     }
 
