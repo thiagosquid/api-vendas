@@ -2,9 +2,13 @@ package com.smsolucoes.apivendas.dtos.mappers;
 
 import com.smsolucoes.apivendas.dtos.requests.ClientDto;
 import com.smsolucoes.apivendas.entities.Client;
+import com.smsolucoes.apivendas.entities.Product;
+import com.smsolucoes.apivendas.entities.Sale;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,18 +17,27 @@ class ClientMapperTest {
 
     @Test
     public void shouldMapClientToDto(){
-        Client client = new Client(1L,"Thiago","123.123.123-21",new ArrayList<>());
+        List salesList = new ArrayList<Sale>();
+        Sale sale = new Sale(1L, LocalDate.now(), new Client(), new ArrayList<Product>());
+        salesList.add(sale);
+
+        Client client = new Client(1L,"Thiago","123.123.123-21",salesList);
 
         ClientDto clientDto = ClientMapper.INSTANCE.toDto(client);
 
         assertNotNull(clientDto);
         assertEquals(client.getName(), clientDto.getName());
         assertEquals(client.getCpfCnpj(), clientDto.getCpfCnpj());
+        assertEquals(client.getSales(), clientDto.getSales());
     }
 
     @Test
     public void shouldMapClientDtoToClient(){
-        ClientDto clientDto = new ClientDto(1L,"Thiago","123.123.123-21",new ArrayList<>());
+        List salesList = new ArrayList<Sale>();
+        Sale sale = new Sale(1L, LocalDate.now(), new Client(), new ArrayList<Product>());
+        salesList.add(sale);
+
+        ClientDto clientDto = new ClientDto(1L,"Thiago","123.123.123-21",salesList);
 
         Client client = ClientMapper.INSTANCE.toModel(clientDto);
 

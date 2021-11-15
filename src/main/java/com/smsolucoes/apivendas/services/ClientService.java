@@ -1,5 +1,7 @@
 package com.smsolucoes.apivendas.services;
 
+import com.smsolucoes.apivendas.dtos.mappers.ClientMapper;
+import com.smsolucoes.apivendas.dtos.requests.ClientDto;
 import com.smsolucoes.apivendas.entities.Client;
 import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
 import com.smsolucoes.apivendas.repositories.ClientRepository;
@@ -17,14 +19,18 @@ public class ClientService {
 
     private final ClientRepository repository;
 
-    public List<Client> getAllClients(){
+    public List<ClientDto> getAllClients(){
         List<Client> allClients = repository.findAll();
-        return allClients;
+
+        return allClients.stream().map(client -> ClientMapper.INSTANCE.toDto(client))
+                .collect(Collectors.toList());
     }
 
-    public Client createClient(Client client) {
+    public ClientDto createClient(ClientDto clientDto) {
 
-        return repository.save(client);
+        Client clientToSave = ClientMapper.INSTANCE.toModel(clientDto);
+
+        return ClientMapper.INSTANCE.toDto(repository.save(clientToSave));
 
     }
 
@@ -35,18 +41,21 @@ public class ClientService {
 
     }
 
-    public Client getClientById(Long id) throws ClientNotFoundException {
+    public ClientDto getClientById(Long id) throws ClientNotFoundException {
         Client client = verifyIfExists(id);
-        return client;
+
+        ClientDto clientDto = ClientMapper.INSTANCE.toDto(client);
+        return clientDto;
     }
 
-    public Client updateClient(Long id, Client client) throws ClientNotFoundException {
+    public ClientDto updateClient(Long id, ClientDto clientDto) throws ClientNotFoundException {
 
         verifyIfExists(id);
 
-        client.setId(id);
+        clientDto.setId(id);
+        Client client = ClientMapper.INSTANCE.toModel(clientDto);
 
-        return repository.save(client);
+        return ClientMapper.INSTANCE.toDto(repository.save(client));
 
     }
 
