@@ -1,5 +1,6 @@
 package com.smsolucoes.apivendas.controllers;
 
+import com.smsolucoes.apivendas.dtos.requests.SaleDto;
 import com.smsolucoes.apivendas.entities.Sale;
 import com.smsolucoes.apivendas.exceptions.ClientNotFoundException;
 import com.smsolucoes.apivendas.exceptions.SaleNotFoundException;
@@ -19,14 +20,14 @@ public class SalesController {
     SaleService saleService;
 
     @GetMapping
-    public List<Sale> getAllSales(){
+    public List<SaleDto> getAllSales(){
 
         return saleService.getAllSales();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.FOUND)
-    public Sale getSaleById(@PathVariable Long id){
+    public SaleDto getSaleById(@PathVariable Long id){
         return saleService.getSaleById(id);
     }
 
@@ -44,13 +45,13 @@ public class SalesController {
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Sale createSale(@PathVariable Long id, @RequestBody Sale sale) throws ClientNotFoundException {
-        return saleService.createSale(id, sale);
+    public SaleDto createSale(@PathVariable Long id, @RequestBody SaleDto saleDto) throws ClientNotFoundException {
+        return saleService.createSale(id, saleDto);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Sale updateSale(@PathVariable Long id, @RequestBody List<Long> productsIds) throws SaleNotFoundException {
+    public SaleDto updateSale(@PathVariable Long id, @RequestBody List<Long> productsIds) throws SaleNotFoundException {
         return saleService.updateSale(id, productsIds);
     }
 }

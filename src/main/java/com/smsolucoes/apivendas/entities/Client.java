@@ -2,6 +2,7 @@ package com.smsolucoes.apivendas.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -27,7 +28,7 @@ public class Client implements Serializable {
     @Column(nullable = false, unique = true)
     private String cpfCnpj;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Sale> sales = new ArrayList<>();
     

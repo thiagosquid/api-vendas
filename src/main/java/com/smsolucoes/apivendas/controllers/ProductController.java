@@ -1,5 +1,6 @@
 package com.smsolucoes.apivendas.controllers;
 
+import com.smsolucoes.apivendas.dtos.requests.ProductDto;
 import com.smsolucoes.apivendas.entities.Product;
 import com.smsolucoes.apivendas.exceptions.ProductNotFoundException;
 import com.smsolucoes.apivendas.services.ProductService;
@@ -17,12 +18,12 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping
-    public List<Product> getAll(){
+    public List<ProductDto> getAll(){
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) throws ProductNotFoundException{
+    public ProductDto getById(@PathVariable Long id) throws ProductNotFoundException{
         return productService.getProductById(id);
     }
 
@@ -34,13 +35,13 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@RequestBody Product product){
-        return productService.createProduct(product);
+    public ProductDto createProduct(@RequestBody ProductDto productDto){
+        return productService.createProduct(productDto);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Product updateProduct(@RequestBody Product product) throws ProductNotFoundException {
-        return productService.updateProduct(product);
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) throws ProductNotFoundException {
+        return productService.updateProduct(productDto);
     }
 }
