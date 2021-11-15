@@ -1,13 +1,11 @@
 package com.smsolucoes.apivendas.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,6 +26,6 @@ public class Product {
 
     @JsonIgnore
     @ManyToMany
-    private List<Sale> saleList = new ArrayList<>();
+    private List<Sale> saleList;
 
 }

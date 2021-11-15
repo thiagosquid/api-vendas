@@ -20,7 +20,6 @@ class ClientMapperTest {
         assertNotNull(clientDto);
         assertEquals(client.getName(), clientDto.getName());
         assertEquals(client.getCpfCnpj(), clientDto.getCpfCnpj());
-        assertEquals(client.getSales(), clientDto.getSales());
     }
 
     @Test

@@ -4,19 +4,18 @@ import com.smsolucoes.apivendas.entities.Sale;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class ClientDto {
+public class ProductDto {
 
     private Long id;
 
     private String name;
 
-    private String cpfCnpj;
+    private double price;
 
-    private List<Sale> sales = new ArrayList<>();
+    private List<Sale> saleList;
 
 }
