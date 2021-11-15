@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,6 @@ public class Product {
 
     @JsonIgnore
     @ManyToMany
-    private List<Sale> saleList;
+    private List<Sale> saleList = new ArrayList<>();
 
 }

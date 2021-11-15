@@ -5,6 +5,7 @@ import com.smsolucoes.apivendas.entities.Client;
 import com.smsolucoes.apivendas.entities.Product;
 import com.smsolucoes.apivendas.entities.Sale;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ClientMapperTest {
 
+    private final ClientMapper clientMapper = ClientMapper.INSTANCE;
+
     @Test
     public void shouldMapClientToDto(){
         List salesList = new ArrayList<Sale>();
@@ -23,7 +26,7 @@ class ClientMapperTest {
 
         Client client = new Client(1L,"Thiago","123.123.123-21",salesList);
 
-        ClientDto clientDto = ClientMapper.INSTANCE.toDto(client);
+        ClientDto clientDto = clientMapper.toDto(client);
 
         assertNotNull(clientDto);
         assertEquals(client.getName(), clientDto.getName());
@@ -39,7 +42,7 @@ class ClientMapperTest {
 
         ClientDto clientDto = new ClientDto(1L,"Thiago","123.123.123-21",salesList);
 
-        Client client = ClientMapper.INSTANCE.toModel(clientDto);
+        Client client = clientMapper.toModel(clientDto);
 
         assertNotNull(clientDto);
         assertEquals(client.getName(), clientDto.getName());
