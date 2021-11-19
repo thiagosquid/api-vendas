@@ -10,17 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ClientService {
 
-    private final ClientRepository repository;
+    private final ClientRepository clientRepository;
 
     public List<ClientDto> getAllClients(){
-        List<Client> allClients = repository.findAll();
+        List<Client> allClients = clientRepository.findAll();
 
         return allClients.stream().map(client -> ClientMapper.INSTANCE.toDto(client))
                 .collect(Collectors.toList());
@@ -30,21 +29,20 @@ public class ClientService {
 
         Client clientToSave = ClientMapper.INSTANCE.toModel(clientDto);
 
-        return ClientMapper.INSTANCE.toDto(repository.save(clientToSave));
+        return ClientMapper.INSTANCE.toDto(clientRepository.save(clientToSave));
 
     }
 
     public void deleteClientById(Long id) throws ClientNotFoundException {
 
         verifyIfExists(id);
-        repository.deleteById(id);
+        clientRepository.deleteById(id);
 
     }
 
     public ClientDto getClientById(Long id) throws ClientNotFoundException {
-        Client client = verifyIfExists(id);
+        ClientDto clientDto = verifyIfExists(id);
 
-        ClientDto clientDto = ClientMapper.INSTANCE.toDto(client);
         return clientDto;
     }
 
@@ -55,13 +53,13 @@ public class ClientService {
         clientDto.setId(id);
         Client client = ClientMapper.INSTANCE.toModel(clientDto);
 
-        return ClientMapper.INSTANCE.toDto(repository.save(client));
+        return ClientMapper.INSTANCE.toDto(clientRepository.save(client));
 
     }
 
-    public Client verifyIfExists(Long id) throws ClientNotFoundException {
-
-        return repository.findById(id).orElseThrow(()-> new ClientNotFoundException(id.intValue()));
+    public ClientDto verifyIfExists(Long id) throws ClientNotFoundException {
+        Client client = clientRepository.findById(id).orElseThrow(()-> new ClientNotFoundException(id.intValue()));
+        return ClientMapper.INSTANCE.toDto(client);
 
     }
 
