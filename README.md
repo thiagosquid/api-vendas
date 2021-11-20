@@ -1,2 +1,2 @@
 # api-vendas
-Wrinting some unitary tests
+Wrinting some unit tests
