@@ -1,5 +1,6 @@
 package com.smsolucoes.apivendas.services;
 
+import com.smsolucoes.apivendas.dtos.mappers.ClientMapper;
 import com.smsolucoes.apivendas.dtos.mappers.SaleMapper;
 import com.smsolucoes.apivendas.dtos.requests.SaleDto;
 import com.smsolucoes.apivendas.entities.Product;
@@ -54,7 +55,7 @@ public class SaleService {
 
     public SaleDto createSale(Long id, SaleDto saleToSave) throws ClientNotFoundException {
 
-        saleToSave.setClient(clientService.verifyIfExists(id));
+        saleToSave.setClient(ClientMapper.INSTANCE.toModel(clientService.verifyIfExists(id)));
         Sale saleSaved = saleRepository.save(saleMapper.toModel(saleToSave));
 
         return saleMapper.toDto(saleSaved);
